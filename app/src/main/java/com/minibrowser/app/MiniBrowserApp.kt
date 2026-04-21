@@ -9,8 +9,10 @@ import com.minibrowser.app.data.BookmarkRepository
 import com.minibrowser.app.data.HistoryRepository
 import com.minibrowser.app.data.MiniBrowserDatabase
 import com.minibrowser.app.data.PreferencesRepository
+import com.minibrowser.app.data.ShortcutDao
 import com.minibrowser.app.download.DownloadManager
 import com.minibrowser.app.engine.GeckoEngineManager
+import com.minibrowser.app.screenshot.ScreenshotCapture
 import com.minibrowser.app.sniffer.VideoSniffer
 import com.minibrowser.app.sniffer.WebExtensionManager
 import com.minibrowser.app.tab.TabManager
@@ -33,6 +35,10 @@ class MiniBrowserApp : Application() {
         private set
     lateinit var adBlocker: AdBlocker
         private set
+    lateinit var shortcutDao: ShortcutDao
+        private set
+    lateinit var screenshotCapture: ScreenshotCapture
+        private set
 
     override fun onCreate() {
         super.onCreate()
@@ -45,6 +51,8 @@ class MiniBrowserApp : Application() {
         historyRepository = HistoryRepository(database.historyDao())
         tabManager = TabManager(geckoEngineManager.runtime)
         adBlocker = AdBlocker()
+        shortcutDao = database.shortcutDao()
+        screenshotCapture = ScreenshotCapture(this)
         createNotificationChannels()
         WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
         AdBlockerExtensionManager(geckoEngineManager.runtime, adBlocker).install()

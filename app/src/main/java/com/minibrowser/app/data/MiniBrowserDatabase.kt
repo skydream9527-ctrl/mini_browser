@@ -26,8 +26,8 @@ class MiniBrowserConverters {
 }
 
 @Database(
-    entities = [DownloadTask::class, BookmarkEntity::class, HistoryEntity::class],
-    version = 2,
+    entities = [DownloadTask::class, BookmarkEntity::class, HistoryEntity::class, ShortcutEntity::class],
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(MiniBrowserConverters::class)
@@ -36,6 +36,7 @@ abstract class MiniBrowserDatabase : RoomDatabase() {
     abstract fun downloadDao(): DownloadDao
     abstract fun bookmarkDao(): BookmarkDao
     abstract fun historyDao(): HistoryDao
+    abstract fun shortcutDao(): ShortcutDao
 
     companion object {
         @Volatile

@@ -67,6 +67,7 @@ import com.minibrowser.app.ui.theme.DarkToolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
+import org.mozilla.geckoview.GeckoSession
 
 @Composable
 fun BrowserScreen(
@@ -95,6 +96,9 @@ fun BrowserScreen(
     var canGoForward by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showEngineSelector by remember { mutableStateOf(false) }
+    var showFindInPage by remember { mutableStateOf(false) }
+    var findQuery by remember { mutableStateOf("") }
+    var isDesktopMode by remember { mutableStateOf(false) }
     var showVideoSheet by remember { mutableStateOf(false) }
     var isFullScreen by remember { mutableStateOf(false) }
     var videoUrl by remember { mutableStateOf<String?>(null) }
@@ -309,6 +313,39 @@ fun BrowserScreen(
                                 )
                             }
                         )
+                        DropdownMenuItem(
+                            text = { Text("页面内搜索") },
+                            onClick = {
+                                showMenu = false
+                                showFindInPage = true
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(if (isDesktopMode) "手机模式" else "桌面模式") },
+                            onClick = {
+                                showMenu = false
+                                isDesktopMode = !isDesktopMode
+                                val ua = if (isDesktopMode)
+                                    com.minibrowser.app.engine.UserAgentConfig.DESKTOP_UA
+                                else
+                                    com.minibrowser.app.engine.UserAgentConfig.MOBILE_UA
+                                engineManager.runtime.settings.userAgentOverride = ua
+                                engineManager.reload()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("截图") },
+                            onClick = {
+                                showMenu = false
+                                scope.launch {
+                                    val session = engineManager.getCurrentSession() ?: return@launch
+                                    val uri = app.screenshotCapture.captureFullPage(session)
+                                    if (uri != null) {
+                                        app.screenshotCapture.showSaved(uri)
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -328,10 +365,33 @@ fun BrowserScreen(
                 )
             }
 
-            BrowserView(
-                session = session,
-                modifier = Modifier.fillMaxSize()
-            )
+            if (showFindInPage) {
+                com.minibrowser.app.ui.components.FindInPageBar(
+                    query = findQuery,
+                    onQueryChange = { findQuery = it },
+                    onNext = {
+                        engineManager.getCurrentSession()?.finder?.find(findQuery, 0)
+                    },
+                    onPrevious = {
+                        engineManager.getCurrentSession()?.finder?.find(findQuery, GeckoSession.FINDER_FIND_BACKWARDS)
+                    },
+                    onClose = {
+                        showFindInPage = false
+                        findQuery = ""
+                        engineManager.getCurrentSession()?.finder?.clear()
+                    }
+                )
+            }
+
+            com.minibrowser.app.ui.components.GestureNavigationWrapper(
+                onSwipeRight = { if (canGoBack) engineManager.goBack() },
+                onSwipeLeft = { if (canGoForward) engineManager.goForward() }
+            ) {
+                BrowserView(
+                    session = session,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
         VideoSnifferFab(
