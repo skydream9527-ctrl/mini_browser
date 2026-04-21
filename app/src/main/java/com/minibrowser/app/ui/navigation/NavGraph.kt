@@ -16,6 +16,7 @@ import com.minibrowser.app.ui.screens.BookmarkScreen
 import com.minibrowser.app.ui.screens.BrowserScreen
 import com.minibrowser.app.ui.screens.HistoryScreen
 import com.minibrowser.app.ui.screens.HomeScreen
+import com.minibrowser.app.ui.screens.ReaderScreen
 import com.minibrowser.app.ui.screens.TabSwitcherScreen
 import com.minibrowser.app.ui.screens.VideoLibraryScreen
 import kotlinx.coroutines.launch
@@ -30,6 +31,13 @@ object Routes {
     const val BOOKMARKS = "bookmarks"
     const val HISTORY = "history"
     const val TAB_SWITCHER = "tab_switcher"
+    const val READER = "reader/{title}/{content}"
+
+    fun reader(title: String, content: String): String {
+        val t = URLEncoder.encode(title, "UTF-8")
+        val c = URLEncoder.encode(content, "UTF-8")
+        return "reader/$t/$c"
+    }
 
     fun browser(input: String): String {
         val encoded = URLEncoder.encode(input, "UTF-8")
@@ -157,6 +165,21 @@ fun NavGraph() {
                     navController.navigate(Routes.HOME)
                 },
                 onClose = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Routes.READER,
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = URLDecoder.decode(backStackEntry.arguments?.getString("title") ?: "", "UTF-8")
+            val content = URLDecoder.decode(backStackEntry.arguments?.getString("content") ?: "", "UTF-8")
+            ReaderScreen(
+                title = title,
+                content = content,
+                onBack = { navController.popBackStack() }
             )
         }
     }

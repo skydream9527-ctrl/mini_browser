@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "MiniBrowser Ad Blocker",
+  "version": "1.0",
+  "description": "Blocks ads and tracking scripts",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "adblocker@minibrowser.app"
+    }
+  }
+}

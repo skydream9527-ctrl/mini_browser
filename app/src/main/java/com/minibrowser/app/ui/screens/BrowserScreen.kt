@@ -293,6 +293,22 @@ fun BrowserScreen(
                                 showMenu = false
                             }
                         )
+                        DropdownMenuItem(
+                            text = {
+                                val count = app.adBlocker.blockedCount.collectAsState().value
+                                Text("已拦截广告 ($count)")
+                            },
+                            onClick = { showMenu = false }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("阅读模式") },
+                            onClick = {
+                                showMenu = false
+                                engineManager.getCurrentSession()?.loadUri(
+                                    "javascript:void(document.title)"
+                                )
+                            }
+                        )
                     }
                 }
             }

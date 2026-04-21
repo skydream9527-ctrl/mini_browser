@@ -3,6 +3,8 @@ package com.minibrowser.app
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import com.minibrowser.app.adblocker.AdBlocker
+import com.minibrowser.app.adblocker.AdBlockerExtensionManager
 import com.minibrowser.app.data.BookmarkRepository
 import com.minibrowser.app.data.HistoryRepository
 import com.minibrowser.app.data.MiniBrowserDatabase
@@ -29,6 +31,8 @@ class MiniBrowserApp : Application() {
         private set
     lateinit var tabManager: TabManager
         private set
+    lateinit var adBlocker: AdBlocker
+        private set
 
     override fun onCreate() {
         super.onCreate()
@@ -40,8 +44,10 @@ class MiniBrowserApp : Application() {
         bookmarkRepository = BookmarkRepository(database.bookmarkDao())
         historyRepository = HistoryRepository(database.historyDao())
         tabManager = TabManager(geckoEngineManager.runtime)
+        adBlocker = AdBlocker()
         createNotificationChannels()
         WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
+        AdBlockerExtensionManager(geckoEngineManager.runtime, adBlocker).install()
     }
 
     private fun createNotificationChannels() {
