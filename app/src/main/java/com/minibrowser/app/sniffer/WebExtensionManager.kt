@@ -18,7 +18,7 @@ class WebExtensionManager(
     fun install() {
         runtime.webExtensionController
             .ensureBuiltIn(EXTENSION_URL, EXTENSION_ID)
-            .then { extension ->
+            .then<Void> { extension ->
                 if (extension != null) {
                     setupMessageDelegate(extension)
                     Log.d(TAG, "Sniffer extension installed")

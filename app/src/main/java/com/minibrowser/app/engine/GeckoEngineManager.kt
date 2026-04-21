@@ -88,13 +88,12 @@ class GeckoEngineManager(context: Context) {
     }
 
     fun getVideoUrl(callback: (String?) -> Unit) {
-        session?.evaluateJavascript(
-            "(function() { var v = document.querySelector('video'); return v ? v.src || v.currentSrc : null; })()"
-        )?.then { result ->
-            val url = result?.asJSValue()?.asString()
-            callback(url)
-            null
-        }
+        session?.loadUri(
+            "javascript:void(document.querySelector('video')&&" +
+            "window.postMessage({type:'video_src',src:document.querySelector('video').src||" +
+            "document.querySelector('video').currentSrc},'*'))"
+        )
+        callback(null)
     }
 
     fun getCurrentSession(): GeckoSession? = session
