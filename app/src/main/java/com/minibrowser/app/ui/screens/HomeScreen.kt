@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.Icon
@@ -48,7 +50,9 @@ fun HomeScreen(
     selectedEngineId: String,
     onNavigate: (String) -> Unit,
     onEngineSelected: (SearchEngine) -> Unit,
-    onOpenVideoLibrary: () -> Unit = {}
+    onOpenVideoLibrary: () -> Unit = {},
+    onOpenBookmarks: () -> Unit = {},
+    onOpenHistory: () -> Unit = {}
 ) {
     var query by remember { mutableStateOf("") }
     var showEngineSelector by remember { mutableStateOf(false) }
@@ -95,17 +99,33 @@ fun HomeScreen(
         Spacer(Modifier.height(40.dp))
 
         Row(
-            modifier = Modifier.clickable { onOpenVideoLibrary() },
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                Icons.Default.VideoLibrary,
-                contentDescription = "视频库",
-                tint = AccentPurple,
-                modifier = Modifier.size(18.dp)
-            )
-            Spacer(Modifier.width(6.dp))
-            Text(text = "视频库", color = AccentPurple, fontSize = 14.sp)
+            Row(
+                modifier = Modifier.clickable { onOpenVideoLibrary() },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.VideoLibrary, "视频库", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("视频", color = AccentPurple, fontSize = 13.sp)
+            }
+            Row(
+                modifier = Modifier.clickable { onOpenBookmarks() },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.Bookmark, "书签", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("书签", color = AccentPurple, fontSize = 13.sp)
+            }
+            Row(
+                modifier = Modifier.clickable { onOpenHistory() },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.History, "历史", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("历史", color = AccentPurple, fontSize = 13.sp)
+            }
         }
 
         Spacer(Modifier.height(24.dp))

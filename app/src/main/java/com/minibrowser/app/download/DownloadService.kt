@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.minibrowser.app.MiniBrowserApp
-import com.minibrowser.app.R
+import com.minibrowser.app.data.MiniBrowserDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -24,7 +24,7 @@ class DownloadService : Service() {
     }
 
     private fun monitorDownloads() {
-        val db = DownloadDatabase.getInstance(this)
+        val db = MiniBrowserDatabase.getInstance(this)
         scope.launch {
             db.downloadDao().getActiveTasks().collect { tasks ->
                 if (tasks.isEmpty()) {

@@ -12,7 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.minibrowser.app.MiniBrowserApp
+import com.minibrowser.app.ui.screens.BookmarkScreen
 import com.minibrowser.app.ui.screens.BrowserScreen
+import com.minibrowser.app.ui.screens.HistoryScreen
 import com.minibrowser.app.ui.screens.HomeScreen
 import com.minibrowser.app.ui.screens.VideoLibraryScreen
 import kotlinx.coroutines.launch
@@ -24,6 +26,8 @@ object Routes {
     const val BROWSER = "browser/{input}"
     const val VIDEO_LIBRARY = "video_library"
     const val VIDEO_PLAYER = "video_player/{path}"
+    const val BOOKMARKS = "bookmarks"
+    const val HISTORY = "history"
 
     fun browser(input: String): String {
         val encoded = URLEncoder.encode(input, "UTF-8")
@@ -60,6 +64,12 @@ fun NavGraph() {
                 },
                 onOpenVideoLibrary = {
                     navController.navigate(Routes.VIDEO_LIBRARY)
+                },
+                onOpenBookmarks = {
+                    navController.navigate(Routes.BOOKMARKS)
+                },
+                onOpenHistory = {
+                    navController.navigate(Routes.HISTORY)
                 }
             )
         }
@@ -103,6 +113,24 @@ fun NavGraph() {
                 videoUrl = path,
                 onDismiss = { navController.popBackStack() },
                 modifier = androidx.compose.ui.Modifier.fillMaxSize()
+            )
+        }
+        composable(Routes.BOOKMARKS) {
+            BookmarkScreen(
+                bookmarkRepository = app.bookmarkRepository,
+                onNavigate = { url ->
+                    navController.navigate(Routes.browser(url))
+                },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable(Routes.HISTORY) {
+            HistoryScreen(
+                historyRepository = app.historyRepository,
+                onNavigate = { url ->
+                    navController.navigate(Routes.browser(url))
+                },
+                onBack = { navController.popBackStack() }
             )
         }
     }

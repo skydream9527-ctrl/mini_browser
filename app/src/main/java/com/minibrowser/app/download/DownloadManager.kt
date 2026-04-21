@@ -1,6 +1,7 @@
 package com.minibrowser.app.download
 
 import android.content.Context
+import com.minibrowser.app.data.MiniBrowserDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -11,7 +12,7 @@ import java.io.File
 class DownloadManager(private val context: Context) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val database = DownloadDatabase.getInstance(context)
+    private val database = MiniBrowserDatabase.getInstance(context)
     private val dao = database.downloadDao()
     private val engine = DownloadEngine()
     private val m3u8Engine = M3u8DownloadEngine(context)

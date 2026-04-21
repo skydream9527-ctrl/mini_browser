@@ -23,6 +23,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -78,6 +80,8 @@ fun BrowserScreen(
     val engineManager = app.geckoEngineManager
     val videoSniffer = app.videoSniffer
     val downloadManager = app.downloadManager
+    val bookmarkRepo = app.bookmarkRepository
+    val historyRepo = app.historyRepository
     val scope = rememberCoroutineScope()
     val currentEngine = SearchEngineConfig.findById(selectedEngineId)
         ?: SearchEngineConfig.builtInEngines.first()
@@ -93,15 +97,21 @@ fun BrowserScreen(
     var showVideoSheet by remember { mutableStateOf(false) }
     var isFullScreen by remember { mutableStateOf(false) }
     var videoUrl by remember { mutableStateOf<String?>(null) }
+    var currentTitle by remember { mutableStateOf("") }
 
     val sniffedVideos by videoSniffer.sniffedVideos.collectAsState()
+    val isBookmarked by bookmarkRepo.isBookmarked(currentUrl).collectAsState(initial = false)
 
     val session = remember {
         videoSniffer.clear()
         engineManager.apply {
+            onTitleChanged = { title -> currentTitle = title }
             onUrlChanged = { url ->
                 currentUrl = url
                 if (!isEditing) urlBarText = url
+                if (url.startsWith("http")) {
+                    scope.launch { historyRepo.recordVisit(url, currentTitle) }
+                }
             }
             onProgressChanged = { p -> progress = p }
             onCanGoBackChanged = { canGoBack = it }
@@ -219,6 +229,28 @@ fun BrowserScreen(
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false }
                     ) {
+                        DropdownMenuItem(
+                            text = { Text(if (isBookmarked) "取消收藏" else "收藏") },
+                            leadingIcon = {
+                                Icon(
+                                    if (isBookmarked) Icons.Default.Star else Icons.Default.StarBorder,
+                                    null,
+                                    tint = if (isBookmarked) com.minibrowser.app.ui.theme.AccentPurple else androidx.compose.material3.LocalContentColor.current
+                                )
+                            },
+                            onClick = {
+                                scope.launch {
+                                    if (isBookmarked) {
+                                        bookmarkRepo.remove(currentUrl)
+                                        Toast.makeText(context, "已取消收藏", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        val added = bookmarkRepo.add(currentTitle.ifBlank { currentUrl }, currentUrl)
+                                        Toast.makeText(context, if (added) "已收藏" else "已存在", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                showMenu = false
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text("刷新") },
                             leadingIcon = { Icon(Icons.Default.Refresh, null) },
