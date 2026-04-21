@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "MiniBrowser Video Sniffer",
+  "version": "1.0",
+  "description": "Detects video resources on web pages",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "sniffer@minibrowser.app"
+    }
+  }
+}
