@@ -16,6 +16,7 @@ import com.minibrowser.app.ui.screens.BookmarkScreen
 import com.minibrowser.app.ui.screens.BrowserScreen
 import com.minibrowser.app.ui.screens.HistoryScreen
 import com.minibrowser.app.ui.screens.HomeScreen
+import com.minibrowser.app.ui.screens.TabSwitcherScreen
 import com.minibrowser.app.ui.screens.VideoLibraryScreen
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
@@ -28,6 +29,7 @@ object Routes {
     const val VIDEO_PLAYER = "video_player/{path}"
     const val BOOKMARKS = "bookmarks"
     const val HISTORY = "history"
+    const val TAB_SWITCHER = "tab_switcher"
 
     fun browser(input: String): String {
         val encoded = URLEncoder.encode(input, "UTF-8")
@@ -89,7 +91,10 @@ fun NavGraph() {
                         app.preferencesRepository.setSearchEngine(engine.id)
                     }
                 },
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onOpenTabSwitcher = {
+                    navController.navigate(Routes.TAB_SWITCHER)
+                }
             )
         }
         composable(Routes.VIDEO_LIBRARY) {
@@ -131,6 +136,27 @@ fun NavGraph() {
                     navController.navigate(Routes.browser(url))
                 },
                 onBack = { navController.popBackStack() }
+            )
+        }
+        composable(Routes.TAB_SWITCHER) {
+            TabSwitcherScreen(
+                tabManager = app.tabManager,
+                onSelectTab = { tabId ->
+                    app.tabManager.switchTo(tabId)
+                    val tab = app.tabManager.activeTab
+                    if (tab != null && tab.url.isNotBlank()) {
+                        navController.popBackStack()
+                        navController.navigate(Routes.browser(tab.url))
+                    } else {
+                        navController.popBackStack()
+                    }
+                },
+                onNewTab = { isIncognito ->
+                    app.tabManager.createTab(isIncognito)
+                    navController.popBackStack()
+                    navController.navigate(Routes.HOME)
+                },
+                onClose = { navController.popBackStack() }
             )
         }
     }

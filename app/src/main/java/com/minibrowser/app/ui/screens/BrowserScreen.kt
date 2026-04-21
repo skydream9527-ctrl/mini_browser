@@ -73,7 +73,8 @@ fun BrowserScreen(
     initialInput: String,
     selectedEngineId: String,
     onEngineSelected: (SearchEngine) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenTabSwitcher: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val app = context.applicationContext as MiniBrowserApp
@@ -109,7 +110,7 @@ fun BrowserScreen(
             onUrlChanged = { url ->
                 currentUrl = url
                 if (!isEditing) urlBarText = url
-                if (url.startsWith("http")) {
+                if (url.startsWith("http") && app.tabManager.activeTab?.isIncognito != true) {
                     scope.launch { historyRepo.recordVisit(url, currentTitle) }
                 }
             }
@@ -264,6 +265,13 @@ fun BrowserScreen(
                             onClick = {
                                 showEngineSelector = true
                                 showMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("标签页 (${app.tabManager.tabCount})") },
+                            onClick = {
+                                showMenu = false
+                                onOpenTabSwitcher()
                             }
                         )
                         DropdownMenuItem(

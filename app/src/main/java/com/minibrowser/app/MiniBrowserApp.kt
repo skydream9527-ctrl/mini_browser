@@ -11,6 +11,7 @@ import com.minibrowser.app.download.DownloadManager
 import com.minibrowser.app.engine.GeckoEngineManager
 import com.minibrowser.app.sniffer.VideoSniffer
 import com.minibrowser.app.sniffer.WebExtensionManager
+import com.minibrowser.app.tab.TabManager
 
 class MiniBrowserApp : Application() {
 
@@ -26,6 +27,8 @@ class MiniBrowserApp : Application() {
         private set
     lateinit var historyRepository: HistoryRepository
         private set
+    lateinit var tabManager: TabManager
+        private set
 
     override fun onCreate() {
         super.onCreate()
@@ -36,6 +39,7 @@ class MiniBrowserApp : Application() {
         downloadManager = DownloadManager(this)
         bookmarkRepository = BookmarkRepository(database.bookmarkDao())
         historyRepository = HistoryRepository(database.historyDao())
+        tabManager = TabManager(geckoEngineManager.runtime)
         createNotificationChannels()
         WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
     }
