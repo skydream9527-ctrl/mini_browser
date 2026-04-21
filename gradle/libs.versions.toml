@@ -14,7 +14,7 @@ okhttp = "4.12.0"
 ffmpegkit = "6.0.LTS"
 room = "2.6.1"
 workmanager = "2.9.0"
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.22-1.0.18"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
