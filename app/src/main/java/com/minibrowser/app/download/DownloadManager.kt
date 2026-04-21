@@ -94,7 +94,7 @@ class DownloadManager(private val context: Context) {
 
     private suspend fun downloadM3u8(task: DownloadTask) {
         val workDir = File(tempDir, "task_${task.id}")
-        val outputFile = File(videosDir, "${task.id}_${sanitizeFilename(task.title)}.mp4")
+        val outputFile = File(videosDir, "${task.id}_${sanitizeFilename(task.title)}.ts")
 
         val parseResult = m3u8Engine.parsePlaylist(task.url)
         val info = when (val data = parseResult.getOrNull()) {

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/mi/Desktop/mini_browser log --oneline -10)"
+    ],
+    "additionalDirectories": [
+      "/Users/mi/Desktop/mini_browser/docs/superpowers"
+    ]
+  }
+}

@@ -76,7 +76,6 @@ dependencies {
     implementation(libs.media3.ui)
 
     implementation(libs.okhttp)
-    implementation(libs.ffmpegkit)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)

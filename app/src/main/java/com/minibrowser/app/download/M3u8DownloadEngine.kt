@@ -1,8 +1,6 @@
 package com.minibrowser.app.download
 
 import android.content.Context
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.ReturnCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
@@ -140,15 +138,15 @@ class M3u8DownloadEngine(
 
         if (segFiles.isEmpty()) return false
 
-        val listFile = File(workDir, "filelist.txt")
-        listFile.writeText(segFiles.joinToString("\n") { "file '${it.absolutePath}'" })
+        outputFile.outputStream().buffered().use { out ->
+            for (seg in segFiles) {
+                seg.inputStream().buffered().use { input ->
+                    input.copyTo(out)
+                }
+            }
+        }
 
-        val session = FFmpegKit.execute(
-            "-f concat -safe 0 -i ${listFile.absolutePath} -c copy -y ${outputFile.absolutePath}"
-        )
-
-        listFile.delete()
-        return ReturnCode.isSuccess(session.returnCode)
+        return outputFile.exists() && outputFile.length() > 0
     }
 
     private fun decryptSegment(data: ByteArray, key: ByteArray, iv: ByteArray?, index: Int): ByteArray {
