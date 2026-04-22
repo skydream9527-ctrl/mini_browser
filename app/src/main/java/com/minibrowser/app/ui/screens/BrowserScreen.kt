@@ -335,8 +335,8 @@ fun BrowserScreen(
                             onClick = {
                                 showMenu = false
                                 scope.launch {
-                                    val session = engineManager.getCurrentSession() ?: return@launch
-                                    val uri = app.screenshotCapture.captureFullPage(session)
+                                    val activity = context as? android.app.Activity ?: return@launch
+                                    val uri = app.screenshotCapture.captureView(activity)
                                     if (uri != null) {
                                         app.screenshotCapture.showSaved(uri)
                                     }
