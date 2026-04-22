@@ -21,7 +21,10 @@ class ScreenshotCapture(private val context: Context) {
 
     suspend fun captureFullPage(session: GeckoSession): Uri? = withContext(Dispatchers.IO) {
         try {
-            val result = session.capturePixels()
+            val display = context.resources.displayMetrics
+            val width = display.widthPixels
+            val height = display.heightPixels
+            val result = session.capturePixels(android.graphics.Rect(0, 0, width, height))
             val bitmap = result.poll(10000) ?: return@withContext null
             saveBitmapToGallery(bitmap)
         } catch (e: Exception) {

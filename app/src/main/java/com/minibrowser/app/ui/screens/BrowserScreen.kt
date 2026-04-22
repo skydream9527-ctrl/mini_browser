@@ -325,12 +325,9 @@ fun BrowserScreen(
                             onClick = {
                                 showMenu = false
                                 isDesktopMode = !isDesktopMode
-                                val ua = if (isDesktopMode)
-                                    com.minibrowser.app.engine.UserAgentConfig.DESKTOP_UA
-                                else
-                                    com.minibrowser.app.engine.UserAgentConfig.MOBILE_UA
-                                engineManager.runtime.settings.userAgentOverride = ua
-                                engineManager.reload()
+                                if (currentUrl.isNotBlank()) {
+                                    engineManager.loadUrl(currentUrl)
+                                }
                             }
                         )
                         DropdownMenuItem(
