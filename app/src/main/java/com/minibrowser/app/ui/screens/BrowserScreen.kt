@@ -67,7 +67,6 @@ import com.minibrowser.app.ui.theme.DarkToolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
-import org.mozilla.geckoview.GeckoSession
 
 @Composable
 fun BrowserScreen(
@@ -383,15 +382,18 @@ fun BrowserScreen(
                     query = findQuery,
                     onQueryChange = { findQuery = it },
                     onNext = {
-                        engineManager.getCurrentSession()?.finder?.find(findQuery, 0)
+                        engineManager.getCurrentSession()?.loadUri(
+                            "javascript:void(window.find('$findQuery',false,false,true))"
+                        )
                     },
                     onPrevious = {
-                        engineManager.getCurrentSession()?.finder?.find(findQuery, GeckoSession.FINDER_FIND_BACKWARDS)
+                        engineManager.getCurrentSession()?.loadUri(
+                            "javascript:void(window.find('$findQuery',false,true,true))"
+                        )
                     },
                     onClose = {
                         showFindInPage = false
                         findQuery = ""
-                        engineManager.getCurrentSession()?.finder?.clear()
                     }
                 )
             }

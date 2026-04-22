@@ -1,6 +1,7 @@
 package com.minibrowser.app.engine
 
 import android.content.Context
+import android.util.Log
 import org.mozilla.geckoview.GeckoRuntime
 import org.mozilla.geckoview.GeckoRuntimeSettings
 import org.mozilla.geckoview.GeckoSession
@@ -8,15 +9,7 @@ import org.mozilla.geckoview.GeckoSession.ContentDelegate
 import org.mozilla.geckoview.GeckoSession.NavigationDelegate
 import org.mozilla.geckoview.GeckoSession.ProgressDelegate
 
-class GeckoEngineManager(context: Context) {
-
-    val runtime: GeckoRuntime = GeckoRuntime.create(
-        context,
-        GeckoRuntimeSettings.Builder()
-            .javaScriptEnabled(true)
-            .consoleOutput(false)
-            .build()
-    )
+class GeckoEngineManager private constructor(val runtime: GeckoRuntime) {
 
     private var session: GeckoSession? = null
 
@@ -88,11 +81,6 @@ class GeckoEngineManager(context: Context) {
     }
 
     fun getVideoUrl(callback: (String?) -> Unit) {
-        session?.loadUri(
-            "javascript:void(document.querySelector('video')&&" +
-            "window.postMessage({type:'video_src',src:document.querySelector('video').src||" +
-            "document.querySelector('video').currentSrc},'*'))"
-        )
         callback(null)
     }
 
@@ -101,5 +89,28 @@ class GeckoEngineManager(context: Context) {
     fun close() {
         session?.close()
         session = null
+    }
+
+    companion object {
+        private const val TAG = "GeckoEngine"
+
+        @Volatile
+        private var INSTANCE: GeckoEngineManager? = null
+
+        fun getInstance(context: Context): GeckoEngineManager {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: try {
+                    val settings = GeckoRuntimeSettings.Builder()
+                        .javaScriptEnabled(true)
+                        .build()
+                    val runtime = GeckoRuntime.create(context.applicationContext, settings)
+                    GeckoEngineManager(runtime).also { INSTANCE = it }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to create GeckoRuntime, retrying with getDefault", e)
+                    val runtime = GeckoRuntime.getDefault(context.applicationContext)
+                    GeckoEngineManager(runtime).also { INSTANCE = it }
+                }
+            }
+        }
     }
 }

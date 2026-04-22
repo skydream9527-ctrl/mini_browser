@@ -45,21 +45,25 @@ class MiniBrowserApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val database = MiniBrowserDatabase.getInstance(this)
-        geckoEngineManager = GeckoEngineManager(this)
-        preferencesRepository = PreferencesRepository(this)
-        videoSniffer = VideoSniffer()
-        downloadManager = DownloadManager(this)
-        bookmarkRepository = BookmarkRepository(database.bookmarkDao())
-        historyRepository = HistoryRepository(database.historyDao())
-        tabManager = TabManager(geckoEngineManager.runtime)
-        adBlocker = AdBlocker()
-        shortcutDao = database.shortcutDao()
-        screenshotCapture = ScreenshotCapture(this)
-        fileDownloader = FileDownloader(this)
-        createNotificationChannels()
-        WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
-        AdBlockerExtensionManager(geckoEngineManager.runtime, adBlocker).install()
+        try {
+            val database = MiniBrowserDatabase.getInstance(this)
+            geckoEngineManager = GeckoEngineManager.getInstance(this)
+            preferencesRepository = PreferencesRepository(this)
+            videoSniffer = VideoSniffer()
+            downloadManager = DownloadManager(this)
+            bookmarkRepository = BookmarkRepository(database.bookmarkDao())
+            historyRepository = HistoryRepository(database.historyDao())
+            tabManager = TabManager(geckoEngineManager.runtime)
+            adBlocker = AdBlocker()
+            shortcutDao = database.shortcutDao()
+            screenshotCapture = ScreenshotCapture(this)
+            fileDownloader = FileDownloader(this)
+            createNotificationChannels()
+            WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
+            AdBlockerExtensionManager(geckoEngineManager.runtime, adBlocker).install()
+        } catch (e: Exception) {
+            android.util.Log.e("MiniBrowserApp", "Initialization failed", e)
+        }
     }
 
     private fun createNotificationChannels() {
