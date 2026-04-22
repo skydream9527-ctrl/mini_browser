@@ -1,0 +1,74 @@
+package com.minibrowser.app.ui.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.minibrowser.app.translate.PageTranslator
+import com.minibrowser.app.ui.theme.AccentPurple
+import com.minibrowser.app.ui.theme.DarkSurface
+import com.minibrowser.app.ui.theme.TextPrimary
+import com.minibrowser.app.ui.theme.TextSecondary
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TranslateDialog(
+    onSelectLanguage: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = DarkSurface
+    ) {
+        Column(modifier = Modifier.padding(bottom = 32.dp)) {
+            Text(
+                text = "翻译为",
+                color = TextPrimary,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+            )
+            PageTranslator.LANGUAGES.forEach { (code, name) ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSelectLanguage(code) }
+                        .padding(horizontal = 20.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.Translate,
+                        contentDescription = null,
+                        tint = TextSecondary,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Text(
+                        text = name,
+                        color = TextPrimary,
+                        fontSize = 15.sp
+                    )
+                }
+            }
+        }
+    }
+}

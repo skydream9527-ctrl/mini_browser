@@ -11,6 +11,7 @@ import com.minibrowser.app.data.MiniBrowserDatabase
 import com.minibrowser.app.data.PreferencesRepository
 import com.minibrowser.app.data.ShortcutDao
 import com.minibrowser.app.download.DownloadManager
+import com.minibrowser.app.download.FileDownloader
 import com.minibrowser.app.engine.GeckoEngineManager
 import com.minibrowser.app.screenshot.ScreenshotCapture
 import com.minibrowser.app.sniffer.VideoSniffer
@@ -39,6 +40,8 @@ class MiniBrowserApp : Application() {
         private set
     lateinit var screenshotCapture: ScreenshotCapture
         private set
+    lateinit var fileDownloader: FileDownloader
+        private set
 
     override fun onCreate() {
         super.onCreate()
@@ -53,6 +56,7 @@ class MiniBrowserApp : Application() {
         adBlocker = AdBlocker()
         shortcutDao = database.shortcutDao()
         screenshotCapture = ScreenshotCapture(this)
+        fileDownloader = FileDownloader(this)
         createNotificationChannels()
         WebExtensionManager(geckoEngineManager.runtime, videoSniffer).install()
         AdBlockerExtensionManager(geckoEngineManager.runtime, adBlocker).install()

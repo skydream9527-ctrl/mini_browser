@@ -99,6 +99,7 @@ fun BrowserScreen(
     var showFindInPage by remember { mutableStateOf(false) }
     var findQuery by remember { mutableStateOf("") }
     var isDesktopMode by remember { mutableStateOf(false) }
+    var showTranslateDialog by remember { mutableStateOf(false) }
     var showVideoSheet by remember { mutableStateOf(false) }
     var isFullScreen by remember { mutableStateOf(false) }
     var videoUrl by remember { mutableStateOf<String?>(null) }
@@ -343,6 +344,21 @@ fun BrowserScreen(
                                 }
                             }
                         )
+                        DropdownMenuItem(
+                            text = { Text("翻译页面") },
+                            onClick = {
+                                showMenu = false
+                                showTranslateDialog = true
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("画中画") },
+                            onClick = {
+                                showMenu = false
+                                val activity = context as? android.app.Activity ?: return@DropdownMenuItem
+                                com.minibrowser.app.player.PipHelper.enterPip(activity)
+                            }
+                        )
                     }
                 }
             }
@@ -434,6 +450,17 @@ fun BrowserScreen(
                 showVideoSheet = false
             },
             onDismiss = { showVideoSheet = false }
+        )
+    }
+
+    if (showTranslateDialog) {
+        com.minibrowser.app.ui.components.TranslateDialog(
+            onSelectLanguage = { lang ->
+                showTranslateDialog = false
+                val translateUrl = com.minibrowser.app.translate.PageTranslator.translateViaRedirect(currentUrl, lang)
+                engineManager.loadUrl(translateUrl)
+            },
+            onDismiss = { showTranslateDialog = false }
         )
     }
 }
