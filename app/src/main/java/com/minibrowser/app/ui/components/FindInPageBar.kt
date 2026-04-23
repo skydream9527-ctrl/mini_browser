@@ -28,7 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -50,7 +50,7 @@ fun FindInPageBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(DarkToolbar)
+            .background(Toolbar)
             .padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -65,7 +65,7 @@ fun FindInPageBar(
             modifier = Modifier
                 .weight(1f)
                 .height(36.dp)
-                .background(DarkToolbar.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+                .background(Toolbar.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp)
                 .focusRequester(focusRequester),
             decorationBox = { inner ->

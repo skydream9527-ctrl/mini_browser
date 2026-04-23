@@ -41,9 +41,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.data.BookmarkRepository
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
@@ -67,7 +67,7 @@ fun BookmarkScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
     ) {
         TopAppBar(
             title = { Text("书签", color = TextPrimary) },
@@ -76,14 +76,14 @@ fun BookmarkScreen(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回", tint = TextPrimary)
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkToolbar)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Toolbar)
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .background(DarkToolbar, RoundedCornerShape(8.dp))
+                .background(Toolbar, RoundedCornerShape(8.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -126,7 +126,7 @@ fun BookmarkScreen(
                         Icon(
                             Icons.Default.Bookmark,
                             contentDescription = null,
-                            tint = AccentPurple,
+                            tint = Purple,
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(Modifier.width(12.dp))

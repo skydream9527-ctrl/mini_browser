@@ -39,11 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.tab.TabInfo
 import com.minibrowser.app.tab.TabManager
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.AccentRed
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkSurface
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Red
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Surface
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -60,13 +60,13 @@ fun TabSwitcherScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkToolbar)
+                    .background(Toolbar)
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -104,7 +104,7 @@ fun TabSwitcherScreen(
 
         FloatingActionButton(
             onClick = { onNewTab(false) },
-            containerColor = AccentPurple,
+            containerColor = Purple,
             contentColor = TextPrimary,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -123,29 +123,29 @@ private fun TabCard(
     onClose: () -> Unit
 ) {
     val borderColor = when {
-        tab.isIncognito -> AccentRed
-        isActive -> AccentPurple
-        else -> DarkToolbar
+        tab.isIncognito -> Red
+        isActive -> Purple
+        else -> Toolbar
     }
 
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(DarkSurface)
+            .background(Surface)
             .clickable(onClick = onSelect)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(4f / 3f)
-                .background(if (tab.isIncognito) DarkToolbar.copy(alpha = 0.7f) else DarkToolbar),
+                .background(if (tab.isIncognito) Toolbar.copy(alpha = 0.7f) else Toolbar),
             contentAlignment = Alignment.Center
         ) {
             if (tab.isIncognito) {
                 Icon(
                     Icons.Default.VisibilityOff,
                     contentDescription = "无痕",
-                    tint = AccentRed.copy(alpha = 0.5f),
+                    tint = Red.copy(alpha = 0.5f),
                     modifier = Modifier.size(32.dp)
                 )
             } else {
@@ -174,7 +174,7 @@ private fun TabCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(if (isActive) borderColor.copy(alpha = 0.15f) else DarkSurface)
+                .background(if (isActive) borderColor.copy(alpha = 0.15f) else Surface)
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -182,7 +182,7 @@ private fun TabCard(
                 Icon(
                     Icons.Default.VisibilityOff,
                     null,
-                    tint = AccentRed,
+                    tint = Red,
                     modifier = Modifier.size(12.dp)
                 )
                 Spacer(Modifier.width(4.dp))

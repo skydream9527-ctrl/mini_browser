@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniBrowser — 首页</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:-apple-system,system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.phone{width:375px;height:812px;background:#0D0D0D;border-radius:40px;border:2px solid #222;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.status-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;color:#666;font-size:12px;flex-shrink:0}
+.status-bar .time{font-weight:600}
+.status-icons{display:flex;gap:6px;align-items:center}
+.status-icons svg{width:16px;height:16px;fill:#666}
+.content{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 20px;overflow-y:auto}
+.brand{margin-top:60px;text-align:center;margin-bottom:8px}
+.brand .mini{font-size:36px;font-weight:700;color:#F0F0F0}
+.brand .browser{font-size:36px;font-weight:700;color:#7C4DFF}
+.engine-label{color:#666;font-size:13px;margin-bottom:20px}
+.search-bar{width:100%;height:48px;background:#1A1A1A;border-radius:24px;display:flex;align-items:center;padding:0 16px;margin-bottom:28px}
+.search-bar span{color:#444;font-size:14px;flex:1}
+.search-bar svg{width:20px;height:20px;fill:#7C4DFF;flex-shrink:0}
+.quick-row{display:flex;gap:32px;margin-bottom:28px}
+.quick-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.quick-item svg{width:20px;height:20px;fill:#666}
+.quick-item span{font-size:12px;color:#666}
+.shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%}
+.shortcut{display:flex;flex-direction:column;align-items:center;gap:8px}
+.shortcut .circle{width:48px;height:48px;background:#1A1A1A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#F0F0F0;font-weight:500}
+.shortcut .name{font-size:11px;color:#666}
+.tab-bar{height:56px;background:#141414;border-top:1px solid #2A2A2A;display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
+.tab-bar .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:#666}
+.tab-bar .tab.active{color:#7C4DFF}
+.tab-bar .tab svg{width:22px;height:22px;fill:currentColor}
+.tab-bar .tab .tab-circle{width:22px;height:22px;border-radius:6px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.safe-bottom{height:34px;background:#141414;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar">
+    <span class="time">10:30</span>
+    <div class="status-icons">
+      <svg viewBox="0 0 24 24"><path d="M1 9l2 2a12.73 12.73 0 0118 0l2-2A15.57 15.57 0 001 9zm4 4l2 2a8.5 8.5 0 0110 0l2-2A11.36 11.36 0 005 13zm4 4l3 3 3-3a4.24 4.24 0 00-6 0z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="brand"><span class="mini">Mini</span><span class="browser">Browser</span></div>
+    <div class="engine-label">Google</div>
+
+    <div class="search-bar">
+      <span>搜索或输入网址</span>
+      <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9a7 7 0 007-7h-2a5 5 0 01-10 0H5a7 7 0 007 7zm-1 2v3h2v-3h-2z"/></svg>
+    </div>
+
+    <div class="quick-row">
+      <div class="quick-item">
+        <svg viewBox="0 0 24 24"><path d="M4 8H2v12a2 2 0 002 2h12v-2H4V8zm16-6H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
+        <span>视频</span>
+      </div>
+      <div class="quick-item">
+        <svg viewBox="0 0 24 24"><path d="M17 3H7a2 2 0 00-2 2v16l7-3 7 3V5a2 2 0 00-2-2z"/></svg>
+        <span>书签</span>
+      </div>
+      <div class="quick-item">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 00-9 9H1l4 4 4-4H6a7 7 0 017-7 7 7 0 017 7 7 7 0 01-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.94 8.94 0 0013 21a9 9 0 000-18zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8H12z"/></svg>
+        <span>历史</span>
+      </div>
+    </div>
+
+    <div class="shortcuts">
+      <div class="shortcut"><div class="circle">G</div><span class="name">Google</span></div>
+      <div class="shortcut"><div class="circle">B</div><span class="name">Bing</span></div>
+      <div class="shortcut"><div class="circle">D</div><span class="name">DDG</span></div>
+      <div class="shortcut"><div class="circle">百</div><span class="name">百度</span></div>
+      <div class="shortcut"><div class="circle">Y</div><span class="name">Yahoo</span></div>
+      <div class="shortcut"><div class="circle">Я</div><span class="name">Yandex</span></div>
+      <div class="shortcut"><div class="circle">搜</div><span class="name">搜狗</span></div>
+      <div class="shortcut"><div class="circle">3</div><span class="name">360</span></div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab active"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>首页</span></div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M17 3H7a2 2 0 00-2 2v16l7-3 7 3V5a2 2 0 00-2-2z"/></svg><span>书签</span></div>
+    <div class="tab"><div class="tab-circle">3</div><span>标签页</span></div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span>视频</span></div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span>菜单</span></div>
+  </div>
+  <div class="safe-bottom"></div>
+</div>
+</body>
+</html>

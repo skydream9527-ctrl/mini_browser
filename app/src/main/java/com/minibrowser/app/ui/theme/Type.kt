@@ -12,7 +12,7 @@ val MiniBrowserTypography = Typography(
         color = TextPrimary
     ),
     titleMedium = TextStyle(
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         color = TextPrimary
     ),

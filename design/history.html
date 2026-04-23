@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniBrowser — 历史记录</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:-apple-system,system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.phone{width:375px;height:812px;background:#0D0D0D;border-radius:40px;border:2px solid #222;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.status-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;color:#666;font-size:12px;flex-shrink:0}
+.status-bar .time{font-weight:600}
+.status-icons{display:flex;gap:6px;align-items:center}
+.status-icons svg{width:16px;height:16px;fill:#666}
+.header{height:48px;background:#141414;display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.header .back{color:#F0F0F0;font-size:20px;cursor:pointer;background:none;border:none}
+.header .title{color:#F0F0F0;font-size:16px;font-weight:600;flex:1}
+.header .trash svg{width:22px;height:22px;fill:#FF4757;cursor:pointer}
+.search-wrap{padding:12px 16px;flex-shrink:0}
+.search-bar{height:40px;background:#1A1A1A;border-radius:24px;display:flex;align-items:center;padding:0 14px;gap:8px}
+.search-bar svg{width:18px;height:18px;fill:#666;flex-shrink:0}
+.search-bar span{color:#444;font-size:14px}
+.list{flex:1;overflow-y:auto;padding:0 16px}
+.section-label{color:#666;font-size:12px;text-transform:uppercase;letter-spacing:1px;padding:12px 0 8px;font-weight:600}
+.item{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #2A2A2A;gap:12px}
+.item .icon svg{width:20px;height:20px;fill:#666}
+.item .info{flex:1;min-width:0}
+.item .info .name{color:#F0F0F0;font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .info .url{color:#666;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .count{color:#444;font-size:11px;flex-shrink:0}
+.tab-bar{height:56px;background:#141414;border-top:1px solid #2A2A2A;display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
+.tab-bar .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:#666}
+.tab-bar .tab.active{color:#7C4DFF}
+.tab-bar .tab svg{width:22px;height:22px;fill:currentColor}
+.tab-bar .tab .tab-circle{width:22px;height:22px;border-radius:6px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.safe-bottom{height:34px;background:#141414;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar"><span class="time">10:30</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M1 9l2 2a12.73 12.73 0 0118 0l2-2A15.57 15.57 0 001 9zm4 4l2 2a8.5 8.5 0 0110 0l2-2A11.36 11.36 0 005 13zm4 4l3 3 3-3a4.24 4.24 0 00-6 0z"/></svg><svg viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg></div></div>
+
+  <div class="header">
+    <button class="back">&larr;</button>
+    <span class="title">历史记录</span>
+    <div class="trash"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></div>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span>搜索历史记录</span>
+    </div>
+  </div>
+
+  <div class="list">
+    <div class="section-label">今天</div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+      <div class="info"><div class="name">GitHub - Let's build</div><div class="url">github.com</div></div>
+      <div class="count">3次</div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+      <div class="info"><div class="name">Stack Overflow</div><div class="url">stackoverflow.com</div></div>
+      <div class="count">5次</div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+      <div class="info"><div class="name">知乎 - 有问题就有答案</div><div class="url">zhihu.com</div></div>
+      <div class="count">2次</div>
+    </div>
+
+    <div class="section-label">昨天</div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+      <div class="info"><div class="name">MDN Web Docs</div><div class="url">developer.mozilla.org</div></div>
+      <div class="count">7次</div>
+    </div>
+    <div class="item">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+      <div class="info"><div class="name">Bilibili</div><div class="url">bilibili.com</div></div>
+      <div class="count">1次</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>首页</span></div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M17 3H7a2 2 0 00-2 2v16l7-3 7 3V5a2 2 0 00-2-2z"/></svg><span>书签</span></div>
+    <div class="tab"><div class="tab-circle">3</div><span>标签页</span></div>
+    <div class="tab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span>视频</span></div>
+    <div class="tab active"><svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span>菜单</span></div>
+  </div>
+  <div class="safe-bottom"></div>
+</div>
+</body>
+</html>

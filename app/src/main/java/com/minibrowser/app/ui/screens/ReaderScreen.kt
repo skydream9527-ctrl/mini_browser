@@ -27,8 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -44,7 +44,7 @@ fun ReaderScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
     ) {
         TopAppBar(
             title = {
@@ -66,13 +66,13 @@ fun ReaderScreen(
                     Icon(Icons.Default.TextIncrease, "放大字体", tint = TextSecondary)
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkToolbar)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Toolbar)
         )
 
         AndroidView(
             factory = { ctx ->
                 WebView(ctx).apply {
-                    setBackgroundColor(android.graphics.Color.parseColor("#1A1A2E"))
+                    setBackgroundColor(android.graphics.Color.parseColor("#0D0D0D"))
                     settings.javaScriptEnabled = false
                     settings.defaultTextEncodingName = "UTF-8"
                 }
@@ -96,8 +96,8 @@ private fun buildReaderHtml(title: String, content: String, fontSize: Int): Stri
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
-                background: #1A1A2E;
-                color: #EAEAEA;
+                background: #0D0D0D;
+                color: #F0F0F0;
                 font-family: -apple-system, sans-serif;
                 font-size: ${fontSize}px;
                 line-height: 1.8;
@@ -106,10 +106,10 @@ private fun buildReaderHtml(title: String, content: String, fontSize: Int): Stri
             }
             h1 {
                 font-size: ${fontSize + 6}px;
-                color: #EAEAEA;
+                color: #F0F0F0;
                 margin-bottom: 16px;
                 line-height: 1.4;
-                border-bottom: 1px solid #0F3460;
+                border-bottom: 1px solid #141414;
                 padding-bottom: 12px;
             }
             p { margin-bottom: 16px; }
@@ -119,15 +119,15 @@ private fun buildReaderHtml(title: String, content: String, fontSize: Int): Stri
                 border-radius: 8px;
                 margin: 12px 0;
             }
-            a { color: #64FFDA; text-decoration: none; }
+            a { color: #00E5FF; text-decoration: none; }
             blockquote {
-                border-left: 3px solid #533483;
+                border-left: 3px solid #7C4DFF;
                 padding-left: 16px;
                 margin: 16px 0;
-                color: #8892B0;
+                color: #666666;
             }
             pre, code {
-                background: #16213E;
+                background: #1A1A1A;
                 padding: 2px 6px;
                 border-radius: 4px;
                 font-size: ${fontSize - 2}px;
@@ -136,11 +136,11 @@ private fun buildReaderHtml(title: String, content: String, fontSize: Int): Stri
             ul, ol { padding-left: 24px; margin-bottom: 16px; }
             li { margin-bottom: 4px; }
             h2, h3, h4 {
-                color: #EAEAEA;
+                color: #F0F0F0;
                 margin: 20px 0 12px;
             }
             table { border-collapse: collapse; width: 100%; margin: 12px 0; }
-            td, th { border: 1px solid #0F3460; padding: 8px; }
+            td, th { border: 1px solid #141414; padding: 8px; }
         </style>
         </head>
         <body>

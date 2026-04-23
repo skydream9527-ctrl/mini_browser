@@ -49,10 +49,10 @@ import androidx.compose.ui.unit.sp
 import com.minibrowser.app.download.DownloadManager
 import com.minibrowser.app.download.DownloadTask
 import com.minibrowser.app.ui.components.DownloadProgressItem
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkSurface
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Surface
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
@@ -72,7 +72,7 @@ fun VideoLibraryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
     ) {
         TopAppBar(
             title = { Text("视频", color = TextPrimary) },
@@ -81,12 +81,12 @@ fun VideoLibraryScreen(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, "返回", tint = TextPrimary)
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkToolbar)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Toolbar)
         )
 
         TabRow(
             selectedTabIndex = selectedTab,
-            containerColor = DarkToolbar,
+            containerColor = Toolbar,
             contentColor = TextPrimary
         ) {
             Tab(
@@ -149,14 +149,14 @@ private fun CompletedVideoItem(task: DownloadTask, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(DarkSurface)
+            .background(Surface)
             .clickable(onClick = onClick)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(16f / 9f)
-                .background(DarkToolbar),
+                .background(Toolbar),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -168,7 +168,7 @@ private fun CompletedVideoItem(task: DownloadTask, onClick: () -> Unit) {
             Icon(
                 Icons.Default.PlayCircle,
                 contentDescription = "播放",
-                tint = AccentPurple.copy(alpha = 0.8f),
+                tint = Purple.copy(alpha = 0.8f),
                 modifier = Modifier.size(40.dp)
             )
         }

@@ -39,9 +39,9 @@ import com.minibrowser.app.engine.SearchEngine
 import com.minibrowser.app.engine.SearchEngineConfig
 import com.minibrowser.app.ui.components.SearchBar
 import com.minibrowser.app.ui.components.SearchEngineSelector
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkSurface
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Surface
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -62,24 +62,32 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(120.dp))
 
-        Text(
-            text = "MiniBrowser",
-            color = TextPrimary,
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
-        )
+        Row {
+            Text(
+                text = "Mini",
+                color = TextPrimary,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Browser",
+                color = Purple,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
         Spacer(Modifier.height(8.dp))
 
         Text(
             text = currentEngine.name,
-            color = AccentPurple,
+            color = Purple,
             fontSize = 14.sp,
             modifier = Modifier.clickable { showEngineSelector = true }
         )
@@ -106,25 +114,25 @@ fun HomeScreen(
                 modifier = Modifier.clickable { onOpenVideoLibrary() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.VideoLibrary, "视频库", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.VideoLibrary, "视频库", tint = Purple, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("视频", color = AccentPurple, fontSize = 13.sp)
+                Text("视频", color = Purple, fontSize = 13.sp)
             }
             Row(
                 modifier = Modifier.clickable { onOpenBookmarks() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.Bookmark, "书签", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.Bookmark, "书签", tint = Purple, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("书签", color = AccentPurple, fontSize = 13.sp)
+                Text("书签", color = Purple, fontSize = 13.sp)
             }
             Row(
                 modifier = Modifier.clickable { onOpenHistory() },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.History, "历史", tint = AccentPurple, modifier = Modifier.size(18.dp))
+                Icon(Icons.Default.History, "历史", tint = Purple, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
-                Text("历史", color = AccentPurple, fontSize = 13.sp)
+                Text("历史", color = Purple, fontSize = 13.sp)
             }
         }
 
@@ -146,13 +154,13 @@ fun HomeScreen(
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .background(DarkSurface, RoundedCornerShape(12.dp)),
+                            .background(Surface, RoundedCornerShape(12.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             Icons.Default.Search,
                             contentDescription = engine.name,
-                            tint = AccentPurple,
+                            tint = Purple,
                             modifier = Modifier.size(24.dp)
                         )
                     }

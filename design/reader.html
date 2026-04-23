@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniBrowser — 阅读模式</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:-apple-system,system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.phone{width:375px;height:812px;background:#0D0D0D;border-radius:40px;border:2px solid #222;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.status-bar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;color:#666;font-size:12px;flex-shrink:0}
+.status-bar .time{font-weight:600}
+.status-icons{display:flex;gap:6px;align-items:center}
+.status-icons svg{width:16px;height:16px;fill:#666}
+.header{height:48px;background:#141414;display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.header .back{color:#F0F0F0;font-size:20px;cursor:pointer;background:none;border:none}
+.header .title{color:#F0F0F0;font-size:16px;font-weight:600;flex:1}
+.header .font-btn{color:#666;font-size:16px;background:none;border:none;cursor:pointer;padding:0 6px;font-weight:600}
+.article{flex:1;overflow-y:auto;padding:24px 20px}
+.article h1{color:#F0F0F0;font-size:24px;font-weight:700;line-height:1.4;margin-bottom:8px}
+.article .byline{color:#666;font-size:13px;margin-bottom:24px}
+.article p{color:#CCC;font-size:18px;line-height:1.8;margin-bottom:20px}
+.article blockquote{border-left:3px solid #7C4DFF;padding:12px 16px;margin:20px 0;color:#999;font-size:16px;line-height:1.7}
+.safe-bottom{height:34px;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status-bar"><span class="time">10:30</span><div class="status-icons"><svg viewBox="0 0 24 24"><path d="M1 9l2 2a12.73 12.73 0 0118 0l2-2A15.57 15.57 0 001 9zm4 4l2 2a8.5 8.5 0 0110 0l2-2A11.36 11.36 0 005 13zm4 4l3 3 3-3a4.24 4.24 0 00-6 0z"/></svg><svg viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg></div></div>
+
+  <div class="header">
+    <button class="back">&larr;</button>
+    <span class="title">阅读模式</span>
+    <button class="font-btn">A-</button>
+    <button class="font-btn">A+</button>
+  </div>
+
+  <div class="article">
+    <h1>人工智能的未来发展</h1>
+    <div class="byline">科技日报 · 2026年4月</div>
+
+    <p>人工智能技术正在以前所未有的速度改变着我们的世界。从自然语言处理到计算机视觉，从自动驾驶到医疗诊断，AI 的应用场景不断扩展，深刻影响着各行各业的发展。</p>
+
+    <blockquote>未来十年，人工智能将不再是一种独立的技术，而是融入到我们生活的方方面面，成为像电力一样基础的存在。</blockquote>
+
+    <p>随着大语言模型的不断进化，人机交互的方式正在发生根本性的转变。开发者们正在探索如何让 AI 更好地理解人类意图，并以更加自然和高效的方式提供帮助。这一趋势将持续推动技术创新和产业升级。</p>
+  </div>
+
+  <div class="safe-bottom"></div>
+</div>
+</body>
+</html>

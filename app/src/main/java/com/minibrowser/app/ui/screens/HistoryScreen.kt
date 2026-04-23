@@ -44,10 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.data.HistoryEntity
 import com.minibrowser.app.data.HistoryRepository
-import com.minibrowser.app.ui.theme.AccentRed
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkSurface
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Red
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Surface
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
@@ -77,7 +77,7 @@ fun HistoryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(Black)
     ) {
         TopAppBar(
             title = { Text("历史记录", color = TextPrimary) },
@@ -90,17 +90,17 @@ fun HistoryScreen(
                 IconButton(onClick = {
                     scope.launch { historyRepository.clearAll() }
                 }) {
-                    Icon(Icons.Default.DeleteSweep, "清除全部", tint = AccentRed)
+                    Icon(Icons.Default.DeleteSweep, "清除全部", tint = Red)
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkToolbar)
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Toolbar)
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
-                .background(DarkToolbar, RoundedCornerShape(8.dp))
+                .background(Toolbar, RoundedCornerShape(8.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

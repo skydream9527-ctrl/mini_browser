@@ -29,10 +29,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.sniffer.SniffedVideo
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.AccentRed
-import com.minibrowser.app.ui.theme.DarkSurface
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Red
+import com.minibrowser.app.ui.theme.Surface
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -48,7 +48,7 @@ fun SniffedVideoSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface
+        containerColor = Surface
     ) {
         Column(modifier = Modifier.padding(bottom = 32.dp)) {
             Text(
@@ -70,7 +70,7 @@ fun SniffedVideoSheet(
                         Icon(
                             Icons.Default.Movie,
                             contentDescription = null,
-                            tint = AccentPurple,
+                            tint = Purple,
                             modifier = Modifier.size(32.dp)
                         )
                         Spacer(Modifier.width(12.dp))
@@ -85,13 +85,13 @@ fun SniffedVideoSheet(
                             Spacer(Modifier.height(2.dp))
                             Row {
                                 Surface(
-                                    color = if (video.isStreamMedia) AccentRed.copy(alpha = 0.2f)
-                                            else AccentPurple.copy(alpha = 0.2f),
+                                    color = if (video.isStreamMedia) Red.copy(alpha = 0.2f)
+                                            else Purple.copy(alpha = 0.2f),
                                     shape = RoundedCornerShape(4.dp)
                                 ) {
                                     Text(
                                         text = video.typeLabel,
-                                        color = if (video.isStreamMedia) AccentRed else AccentPurple,
+                                        color = if (video.isStreamMedia) Red else Purple,
                                         fontSize = 11.sp,
                                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                     )
@@ -110,7 +110,7 @@ fun SniffedVideoSheet(
                             Icon(
                                 Icons.Default.Download,
                                 contentDescription = "下载",
-                                tint = AccentPurple
+                                tint = Purple
                             )
                         }
                     }

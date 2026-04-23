@@ -19,8 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.AccentRed
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Red
 import com.minibrowser.app.ui.theme.TextPrimary
 
 @Composable
@@ -38,7 +38,7 @@ fun VideoSnifferFab(
         BadgedBox(
             badge = {
                 Badge(
-                    containerColor = AccentRed,
+                    containerColor = Red,
                     contentColor = TextPrimary
                 ) {
                     Text(
@@ -50,7 +50,7 @@ fun VideoSnifferFab(
         ) {
             FloatingActionButton(
                 onClick = onClick,
-                containerColor = AccentPurple,
+                containerColor = Purple,
                 contentColor = TextPrimary,
                 shape = CircleShape,
                 modifier = Modifier.size(48.dp)

@@ -10,7 +10,7 @@ import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import com.minibrowser.app.ui.theme.AccentPurple
+import com.minibrowser.app.ui.theme.Purple
 import java.util.Locale
 
 @Composable
@@ -37,6 +37,6 @@ fun VoiceSearchButton(
         }
         launcher.launch(intent)
     }) {
-        Icon(Icons.Default.Mic, contentDescription = "语音搜索", tint = AccentPurple)
+        Icon(Icons.Default.Mic, contentDescription = "语音搜索", tint = Purple)
     }
 }

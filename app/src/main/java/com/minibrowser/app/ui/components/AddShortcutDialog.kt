@@ -24,9 +24,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.DarkSurface
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Surface
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -44,7 +44,7 @@ fun AddShortcutDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(DarkSurface, RoundedCornerShape(16.dp))
+                .background(Surface, RoundedCornerShape(16.dp))
                 .padding(20.dp)
         ) {
             Text("添加快捷方式", color = TextPrimary, fontSize = 18.sp)
@@ -60,7 +60,7 @@ fun AddShortcutDialog(
                 cursorBrush = SolidColor(TextPrimary),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkToolbar, RoundedCornerShape(8.dp))
+                    .background(Toolbar, RoundedCornerShape(8.dp))
                     .padding(12.dp)
             )
 
@@ -76,7 +76,7 @@ fun AddShortcutDialog(
                 cursorBrush = SolidColor(TextPrimary),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkToolbar, RoundedCornerShape(8.dp))
+                    .background(Toolbar, RoundedCornerShape(8.dp))
                     .padding(12.dp),
                 decorationBox = { inner ->
                     if (url.isEmpty()) {
@@ -95,7 +95,7 @@ fun AddShortcutDialog(
                     }
                 },
                 modifier = Modifier.align(Alignment.End),
-                colors = ButtonDefaults.buttonColors(containerColor = AccentPurple)
+                colors = ButtonDefaults.buttonColors(containerColor = Purple)
             ) {
                 Text("添加", color = TextPrimary)
             }

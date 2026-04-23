@@ -32,7 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.minibrowser.app.ui.theme.DarkSurface
+import com.minibrowser.app.ui.theme.Surface
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -56,7 +56,7 @@ fun WebContextMenu(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface
+        containerColor = Surface
     ) {
         Column(modifier = Modifier.padding(bottom = 32.dp)) {
             Text(

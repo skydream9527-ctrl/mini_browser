@@ -29,7 +29,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.minibrowser.app.ui.theme.AccentPurple
+import com.minibrowser.app.ui.theme.Purple
 import com.minibrowser.app.ui.theme.TextPrimary
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -105,7 +105,7 @@ fun GestureNavigationWrapper(
                     .offset { IntOffset(dragOffset.coerceIn(0f, threshold * 1.2f).roundToInt() - 40, 0) }
                     .size(40.dp)
                     .background(
-                        AccentPurple.copy(alpha = (dragOffset / threshold).coerceIn(0.3f, 0.9f)),
+                        Purple.copy(alpha = (dragOffset / threshold).coerceIn(0.3f, 0.9f)),
                         CircleShape
                     ),
                 contentAlignment = Alignment.Center
@@ -130,7 +130,7 @@ fun GestureNavigationWrapper(
                     .offset { IntOffset((dragOffset.coerceIn(-threshold * 1.2f, 0f) + 40).roundToInt(), 0) }
                     .size(40.dp)
                     .background(
-                        AccentPurple.copy(alpha = (abs(dragOffset) / threshold).coerceIn(0.3f, 0.9f)),
+                        Purple.copy(alpha = (abs(dragOffset) / threshold).coerceIn(0.3f, 0.9f)),
                         CircleShape
                     ),
                 contentAlignment = Alignment.Center

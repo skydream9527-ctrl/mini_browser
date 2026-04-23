@@ -61,9 +61,9 @@ import com.minibrowser.app.ui.components.SearchEngineSelector
 import com.minibrowser.app.ui.components.SniffedVideoSheet
 import com.minibrowser.app.ui.components.VideoPlayer
 import com.minibrowser.app.ui.components.VideoSnifferFab
-import com.minibrowser.app.ui.theme.AccentRed
-import com.minibrowser.app.ui.theme.DarkBackground
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Red
+import com.minibrowser.app.ui.theme.Black
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 import kotlinx.coroutines.launch
@@ -160,12 +160,12 @@ fun BrowserScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DarkBackground)
+                .background(Black)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(DarkToolbar)
+                    .background(Toolbar)
                     .padding(horizontal = 4.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -196,7 +196,7 @@ fun BrowserScreen(
                     modifier = Modifier
                         .weight(1f)
                         .background(
-                            DarkBackground.copy(alpha = 0.5f),
+                            Black.copy(alpha = 0.5f),
                             shape = RoundedCornerShape(8.dp)
                         )
                         .padding(horizontal = 12.dp, vertical = 8.dp)
@@ -240,7 +240,7 @@ fun BrowserScreen(
                                 Icon(
                                     if (isBookmarked) Icons.Default.Star else Icons.Default.StarBorder,
                                     null,
-                                    tint = if (isBookmarked) com.minibrowser.app.ui.theme.AccentPurple else androidx.compose.material3.LocalContentColor.current
+                                    tint = if (isBookmarked) com.minibrowser.app.ui.theme.Purple else androidx.compose.material3.LocalContentColor.current
                                 )
                             },
                             onClick = {
@@ -372,8 +372,8 @@ fun BrowserScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(2.dp),
-                    color = AccentRed,
-                    trackColor = DarkToolbar
+                    color = Red,
+                    trackColor = Toolbar
                 )
             }
 

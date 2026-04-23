@@ -24,9 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.download.DownloadStatus
 import com.minibrowser.app.download.DownloadTask
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.AccentRed
-import com.minibrowser.app.ui.theme.DarkToolbar
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Red
+import com.minibrowser.app.ui.theme.Toolbar
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -59,8 +59,8 @@ fun DownloadProgressItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp),
-                color = AccentPurple,
-                trackColor = DarkToolbar
+                color = Purple,
+                trackColor = Toolbar
             )
             Spacer(Modifier.height(2.dp))
             Text(
@@ -92,7 +92,7 @@ fun DownloadProgressItem(
             }
             DownloadStatus.FAILED -> {
                 IconButton(onClick = onRetry) {
-                    Icon(Icons.Default.Refresh, "重试", tint = AccentRed)
+                    Icon(Icons.Default.Refresh, "重试", tint = Red)
                 }
             }
             else -> {}

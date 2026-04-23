@@ -9,7 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.minibrowser.app.ui.theme.AccentPurple
+import com.minibrowser.app.ui.theme.Purple
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,8 +38,8 @@ fun PullToRefreshWrapper(
         PullToRefreshContainer(
             state = state,
             modifier = Modifier.align(Alignment.TopCenter),
-            containerColor = com.minibrowser.app.ui.theme.DarkToolbar,
-            contentColor = AccentPurple
+            containerColor = com.minibrowser.app.ui.theme.Toolbar,
+            contentColor = Purple
         )
     }
 }

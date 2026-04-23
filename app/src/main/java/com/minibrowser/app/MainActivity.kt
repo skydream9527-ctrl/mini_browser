@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.minibrowser.app.ui.navigation.NavGraph
-import com.minibrowser.app.ui.theme.DarkBackground
+import com.minibrowser.app.ui.theme.Black
 import com.minibrowser.app.ui.theme.MiniBrowserTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             MiniBrowserTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = DarkBackground
+                    color = Black
                 ) {
                     NavGraph()
                 }

@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.minibrowser.app.engine.SearchEngine
 import com.minibrowser.app.engine.SearchEngineConfig
-import com.minibrowser.app.ui.theme.AccentPurple
-import com.minibrowser.app.ui.theme.DarkSurface
+import com.minibrowser.app.ui.theme.Purple
+import com.minibrowser.app.ui.theme.Surface
 import com.minibrowser.app.ui.theme.TextPrimary
 import com.minibrowser.app.ui.theme.TextSecondary
 
@@ -40,7 +40,7 @@ fun SearchEngineSelector(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface
+        containerColor = Surface
     ) {
         Column(modifier = Modifier.padding(bottom = 32.dp)) {
             Text(
@@ -61,7 +61,7 @@ fun SearchEngineSelector(
                     Icon(
                         Icons.Default.Search,
                         contentDescription = null,
-                        tint = if (isSelected) AccentPurple else TextSecondary,
+                        tint = if (isSelected) Purple else TextSecondary,
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(Modifier.width(16.dp))
@@ -75,7 +75,7 @@ fun SearchEngineSelector(
                         Icon(
                             Icons.Default.Check,
                             contentDescription = "Selected",
-                            tint = AccentPurple,
+                            tint = Purple,
                             modifier = Modifier.size(20.dp)
                         )
                     }
