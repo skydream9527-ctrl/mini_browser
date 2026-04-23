@@ -4,8 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +43,6 @@ object Routes {
     const val HISTORY = "history"
     const val TAB_SWITCHER = "tab_switcher"
     const val READER = "reader/{title}/{content}"
-    const val MENU = "menu"
 
     fun browser(input: String): String {
         val encoded = URLEncoder.encode(input, "UTF-8")
@@ -73,24 +72,40 @@ fun NavGraph() {
         .collectAsState(initial = "google")
 
     var currentTab by remember { mutableStateOf(NavTab.HOME) }
+    var showBottomBar by remember { mutableStateOf(true) }
 
-    val showBottomBar = remember(navController) {
-        mutableStateOf(true)
+    DisposableEffect(navController) {
+        val listener = androidx.navigation.NavController.OnDestinationChangedListener { _, destination, _ ->
+            showBottomBar = when (destination.route) {
+                Routes.HOME, Routes.BOOKMARKS, Routes.VIDEO_LIBRARY, Routes.HISTORY -> true
+                else -> false
+            }
+            currentTab = when (destination.route) {
+                Routes.HOME -> NavTab.HOME
+                Routes.BOOKMARKS -> NavTab.BOOKMARKS
+                Routes.VIDEO_LIBRARY -> NavTab.VIDEOS
+                Routes.TAB_SWITCHER -> NavTab.TABS
+                Routes.HISTORY -> NavTab.MENU
+                else -> currentTab
+            }
+        }
+        navController.addOnDestinationChangedListener(listener)
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
     }
 
-    navController.addOnDestinationChangedListener { _, destination, _ ->
-        showBottomBar.value = when (destination.route) {
-            Routes.HOME, Routes.BOOKMARKS, Routes.VIDEO_LIBRARY, Routes.MENU, Routes.HISTORY -> true
-            else -> false
-        }
-        currentTab = when (destination.route) {
-            Routes.HOME -> NavTab.HOME
-            Routes.BOOKMARKS -> NavTab.BOOKMARKS
-            Routes.VIDEO_LIBRARY -> NavTab.VIDEOS
-            Routes.TAB_SWITCHER -> NavTab.TABS
-            Routes.HISTORY, Routes.MENU -> NavTab.MENU
-            else -> currentTab
-        }
+    fun safeNavigate(route: String, popUpRoute: String? = null) {
+        try {
+            val currentRoute = navController.currentDestination?.route
+            if (currentRoute == route) return
+            navController.navigate(route) {
+                if (popUpRoute != null) {
+                    popUpTo(popUpRoute) { inclusive = false }
+                }
+                launchSingleTop = true
+            }
+        } catch (_: Exception) { }
     }
 
     Column(modifier = Modifier.fillMaxSize().background(Black)) {
@@ -100,7 +115,7 @@ fun NavGraph() {
                     HomeScreen(
                         selectedEngineId = selectedEngineId,
                         onNavigate = { input ->
-                            navController.navigate(Routes.browser(input))
+                            safeNavigate(Routes.browser(input))
                         },
                         onEngineSelected = { engine ->
                             scope.launch {
@@ -108,13 +123,13 @@ fun NavGraph() {
                             }
                         },
                         onOpenVideoLibrary = {
-                            navController.navigate(Routes.VIDEO_LIBRARY)
+                            safeNavigate(Routes.VIDEO_LIBRARY, Routes.HOME)
                         },
                         onOpenBookmarks = {
-                            navController.navigate(Routes.BOOKMARKS)
+                            safeNavigate(Routes.BOOKMARKS, Routes.HOME)
                         },
                         onOpenHistory = {
-                            navController.navigate(Routes.HISTORY)
+                            safeNavigate(Routes.HISTORY, Routes.HOME)
                         }
                     )
                 }
@@ -134,18 +149,22 @@ fun NavGraph() {
                                 app.preferencesRepository.setSearchEngine(engine.id)
                             }
                         },
-                        onBack = { navController.popBackStack() },
+                        onBack = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        },
                         onOpenTabSwitcher = {
-                            navController.navigate(Routes.TAB_SWITCHER)
+                            safeNavigate(Routes.TAB_SWITCHER)
                         }
                     )
                 }
                 composable(Routes.VIDEO_LIBRARY) {
                     VideoLibraryScreen(
                         downloadManager = app.downloadManager,
-                        onBack = { navController.popBackStack() },
+                        onBack = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        },
                         onPlayVideo = { path ->
-                            navController.navigate(Routes.videoPlayer(path))
+                            safeNavigate(Routes.videoPlayer(path))
                         }
                     )
                 }
@@ -159,7 +178,9 @@ fun NavGraph() {
                     )
                     com.minibrowser.app.ui.components.VideoPlayer(
                         videoUrl = path,
-                        onDismiss = { navController.popBackStack() },
+                        onDismiss = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        },
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -167,18 +188,22 @@ fun NavGraph() {
                     BookmarkScreen(
                         bookmarkRepository = app.bookmarkRepository,
                         onNavigate = { url ->
-                            navController.navigate(Routes.browser(url))
+                            safeNavigate(Routes.browser(url))
                         },
-                        onBack = { navController.popBackStack() }
+                        onBack = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        }
                     )
                 }
                 composable(Routes.HISTORY) {
                     HistoryScreen(
                         historyRepository = app.historyRepository,
                         onNavigate = { url ->
-                            navController.navigate(Routes.browser(url))
+                            safeNavigate(Routes.browser(url))
                         },
-                        onBack = { navController.popBackStack() }
+                        onBack = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        }
                     )
                 }
                 composable(Routes.TAB_SWITCHER) {
@@ -187,19 +212,26 @@ fun NavGraph() {
                         onSelectTab = { tabId ->
                             app.tabManager.switchTo(tabId)
                             val tab = app.tabManager.activeTab
-                            if (tab != null && tab.url.isNotBlank()) {
+                            try {
                                 navController.popBackStack()
-                                navController.navigate(Routes.browser(tab.url))
-                            } else {
-                                navController.popBackStack()
-                            }
+                                if (tab != null && tab.url.isNotBlank()) {
+                                    navController.navigate(Routes.browser(tab.url)) {
+                                        launchSingleTop = true
+                                    }
+                                }
+                            } catch (_: Exception) { }
                         },
                         onNewTab = { isIncognito ->
                             app.tabManager.createTab(isIncognito)
-                            navController.popBackStack()
-                            navController.navigate(Routes.HOME)
+                            try {
+                                navController.popBackStack(Routes.HOME, inclusive = false)
+                            } catch (_: Exception) {
+                                safeNavigate(Routes.HOME)
+                            }
                         },
-                        onClose = { navController.popBackStack() }
+                        onClose = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        }
                     )
                 }
                 composable(
@@ -214,34 +246,27 @@ fun NavGraph() {
                     ReaderScreen(
                         title = title,
                         content = content,
-                        onBack = { navController.popBackStack() }
+                        onBack = {
+                            try { navController.popBackStack() } catch (_: Exception) { }
+                        }
                     )
                 }
             }
         }
 
-        if (showBottomBar.value) {
+        if (showBottomBar) {
             BottomNavBar(
                 currentTab = currentTab,
                 tabCount = app.tabManager.tabCount.coerceAtLeast(1),
                 onTabSelected = { tab ->
-                    when (tab) {
-                        NavTab.HOME -> navController.navigate(Routes.HOME) {
-                            popUpTo(Routes.HOME) { inclusive = true }
-                        }
-                        NavTab.BOOKMARKS -> navController.navigate(Routes.BOOKMARKS) {
-                            popUpTo(Routes.HOME)
-                        }
-                        NavTab.TABS -> navController.navigate(Routes.TAB_SWITCHER) {
-                            popUpTo(Routes.HOME)
-                        }
-                        NavTab.VIDEOS -> navController.navigate(Routes.VIDEO_LIBRARY) {
-                            popUpTo(Routes.HOME)
-                        }
-                        NavTab.MENU -> navController.navigate(Routes.HISTORY) {
-                            popUpTo(Routes.HOME)
-                        }
+                    val route = when (tab) {
+                        NavTab.HOME -> Routes.HOME
+                        NavTab.BOOKMARKS -> Routes.BOOKMARKS
+                        NavTab.TABS -> Routes.TAB_SWITCHER
+                        NavTab.VIDEOS -> Routes.VIDEO_LIBRARY
+                        NavTab.MENU -> Routes.HISTORY
                     }
+                    safeNavigate(route, Routes.HOME)
                 }
             )
         }
