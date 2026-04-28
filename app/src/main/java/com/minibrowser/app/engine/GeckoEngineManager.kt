@@ -64,6 +64,10 @@ class GeckoEngineManager private constructor(val runtime: GeckoRuntime) {
         return newSession
     }
 
+    fun getOrCreateSession(): GeckoSession {
+        return session ?: createSession()
+    }
+
     fun loadUrl(url: String) {
         session?.loadUri(url)
     }
@@ -99,15 +103,11 @@ class GeckoEngineManager private constructor(val runtime: GeckoRuntime) {
 
         fun getInstance(context: Context): GeckoEngineManager {
             return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: try {
+                INSTANCE ?: run {
                     val settings = GeckoRuntimeSettings.Builder()
                         .javaScriptEnabled(true)
                         .build()
                     val runtime = GeckoRuntime.create(context.applicationContext, settings)
-                    GeckoEngineManager(runtime).also { INSTANCE = it }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to create GeckoRuntime, retrying with getDefault", e)
-                    val runtime = GeckoRuntime.getDefault(context.applicationContext)
                     GeckoEngineManager(runtime).also { INSTANCE = it }
                 }
             }

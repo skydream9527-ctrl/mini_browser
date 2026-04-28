@@ -173,9 +173,6 @@ class DownloadManager(private val context: Context) {
     private suspend fun processQueue() {
         val activeCount = dao.getActiveDownloadCount()
         if (activeCount >= MAX_CONCURRENT) return
-
-        val pending = dao.getTaskById(0)
-        // Queue processing handled by Room Flow observers
     }
 
     private fun sanitizeFilename(name: String): String {

@@ -78,6 +78,14 @@ fun BrowserScreen(
 ) {
     val context = LocalContext.current
     val app = context.applicationContext as MiniBrowserApp
+
+    if (app.initFailed) {
+        Box(modifier = Modifier.fillMaxSize().background(Black), contentAlignment = Alignment.Center) {
+            Text("浏览器引擎初始化失败", color = TextPrimary)
+        }
+        return
+    }
+
     val engineManager = app.geckoEngineManager
     val videoSniffer = app.videoSniffer
     val downloadManager = app.downloadManager
@@ -107,32 +115,29 @@ fun BrowserScreen(
     val sniffedVideos by videoSniffer.sniffedVideos.collectAsState()
     val isBookmarked by bookmarkRepo.isBookmarked(currentUrl).collectAsState(initial = false)
 
-    val session = remember {
+    val session = remember(initialInput) {
         videoSniffer.clear()
-        engineManager.apply {
-            onTitleChanged = { title -> currentTitle = title }
-            onUrlChanged = { url ->
-                currentUrl = url
-                if (!isEditing) urlBarText = url
-                if (url.startsWith("http") && app.tabManager.activeTab?.isIncognito != true) {
-                    scope.launch { historyRepo.recordVisit(url, currentTitle) }
-                }
-            }
-            onProgressChanged = { p -> progress = p }
-            onCanGoBackChanged = { canGoBack = it }
-            onCanGoForwardChanged = { canGoForward = it }
-            onFullScreenRequest = { fullScreen ->
-                isFullScreen = fullScreen
-                if (fullScreen) {
-                    engineManager.getVideoUrl { url ->
-                        videoUrl = url
+        engineManager.onTitleChanged = { title -> currentTitle = title }
+        engineManager.onUrlChanged = { url ->
+            currentUrl = url
+            if (!isEditing) urlBarText = url
+            if (url.startsWith("http")) {
+                try {
+                    val isIncognito = app.tabManager.activeTab?.isIncognito == true
+                    if (!isIncognito) {
+                        scope.launch { historyRepo.recordVisit(url, currentTitle) }
                     }
-                } else {
-                    videoUrl = null
-                }
+                } catch (_: Exception) { }
             }
         }
-        engineManager.createSession()
+        engineManager.onProgressChanged = { p -> progress = p }
+        engineManager.onCanGoBackChanged = { canGoBack = it }
+        engineManager.onCanGoForwardChanged = { canGoForward = it }
+        engineManager.onFullScreenRequest = { fullScreen ->
+            isFullScreen = fullScreen
+            if (!fullScreen) videoUrl = null
+        }
+        engineManager.getOrCreateSession()
     }
 
     LaunchedEffect(initialInput) {
