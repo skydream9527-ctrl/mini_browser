@@ -35,7 +35,8 @@ class FileDownloader(private val context: Context) {
     private fun guessFilename(url: String): String {
         val path = Uri.parse(url).lastPathSegment ?: "download"
         val cleaned = path.substringBefore('?').substringBefore('#')
-        return if (cleaned.contains('.')) cleaned else "$cleaned.bin"
+        val sanitized = cleaned.replace("../", "").replace("/", "").replace("\\", "")
+        return if (sanitized.contains('.')) sanitized else "$sanitized.bin"
     }
 
     private fun guessMimeType(url: String): String? {

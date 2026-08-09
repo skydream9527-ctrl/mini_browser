@@ -387,13 +387,15 @@ fun BrowserScreen(
                     query = findQuery,
                     onQueryChange = { findQuery = it },
                     onNext = {
+                        val escapedQuery = findQuery.replace("\\", "\\\\").replace("'", "\\'")
                         engineManager.getCurrentSession()?.loadUri(
-                            "javascript:void(window.find('$findQuery',false,false,true))"
+                            "javascript:void(window.find('$escapedQuery',false,false,true))"
                         )
                     },
                     onPrevious = {
+                        val escapedQuery = findQuery.replace("\\", "\\\\").replace("'", "\\'")
                         engineManager.getCurrentSession()?.loadUri(
-                            "javascript:void(window.find('$findQuery',false,true,true))"
+                            "javascript:void(window.find('$escapedQuery',false,true,true))"
                         )
                     },
                     onClose = {
